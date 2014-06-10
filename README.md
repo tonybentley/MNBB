@@ -27,3 +27,11 @@ Front-End Application: This is where the entire architecture will allow non-tech
 Contributors:
 
 There are three parts needed to make this project a success. First is getting the basic NMEA sentences parsed and inserted into the database in a manner that agrees with the Raspberry Pi's capabilities. Producing an optimized database, providing a simple API for module development and a basic front-end with the needed JavaScript libraries, SASS architecture and handlebar template system. 
+
+
+Raspberry Pi Device requirements:
+1. A Raspberry Pi computer
+2. Temporarily you will need a HDMI enabled monotor, a usb mouse, a usb keyboard and an ethernet cable connected to the internet
+3. A micro-usb power supply which can connect to your 12 volt battery bank in some manner
+4. a wifi usb dongle OR a 12 volt router with an ethernet cable plugged into one of the ports
+5. A wifi or ethernet cable connected to the NEMA client. I am currently using the Vesber XB unit which is connected to a Dlink DIR-655 network router via wifi. The network router will also connect to the internet (when available) and your laptop for development purposes. 
