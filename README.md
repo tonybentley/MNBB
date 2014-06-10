@@ -23,3 +23,7 @@ Database Inserts: Each NMEA sentence will have it's own dedicated table which ca
 Custom Queries: As part of your module, you will write your own set of custom queries that will deliver a subset of data in JSON format that you can use for displaying in your custom user interface. This is the core of the application and the method in which data will be compared.
 
 Front-End Application: This is where the entire architecture will allow non-technical mariners to use the application. Using Node's web server capabilities a user will simply connect to the application using HTTP and navigate to the home screen to view the modules that are installed into their Raspberry Pi application. 
+
+Contributors:
+
+There are three parts needed to make this project a success. First is getting the basic NMEA sentences parsed and inserted into the database in a manner that agrees with the Raspberry Pi's capabilities. Producing an optimized database, providing a simple API for module development and a basic front-end with the needed JavaScript libraries, SASS architecture and handlebar template system. 
