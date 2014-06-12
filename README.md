@@ -51,3 +51,17 @@ Raspberry Pi Device requirements
 <li>a wifi usb dongle OR a 12 volt router with an ethernet cable plugged into one of the ports</li>
 <li> Wifi or ethernet cable connected to the NEMA client. I am currently using the Vesber XB unit which is connected to a Dlink DIR-655 network router via wifi. The network router will also connect to the internet (when available) and your laptop for development purposes. </li>
 </ol>
+
+<h2>Steps to get up and running:</h2>
+<p>
+Since this is a WIP I will provide some instructions on how to get the NMEA data streaming on the console. I'm currently working on the MySQL DB part which you're welcome to hack around with. Otherwise, this only connects to the TCP client and parses sentences that have valid parsers available. 
+</p>
+
+<ol>
+<li>Install Node.js and NPM onto the Pi</li>
+<li>Clone this repo to your login directory of the Pi</li>
+<li>Copy <a href="https://gist.github.com/tonybentley/4695b0d43aa346383cbb">THIS GIST<a> to the root directory MNBB, and name it 'config.json'</li>
+<li>Install the <a href="https://github.com/tonybentley/node-nmea">node-nmea forked repo</a> into a folder called 'node_modules'</li>
+<li>run the command: 'nodejs app.js' in the MNBB directory</li>
+</ol>
+<p>At this point you should see the parsed sentences in json format, all others in the raw NMEA sentence format. If you would like to contribute, start with building valid NMEA parsers in the node-nmea forked repo through pull requests. </p>
