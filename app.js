@@ -2,9 +2,10 @@
 var net = require('net');
 var nmeaParser = require('nmea-0183');
 
+var config = require('./config');
 
-var HOST = '192.168.0.101';
-var PORT = 39150;
+var HOST = config.nmea.host;
+var PORT = config.nmea.port;
 
 var net = require('net');
  
