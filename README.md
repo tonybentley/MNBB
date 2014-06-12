@@ -47,6 +47,7 @@ Raspberry Pi Device requirements
  <li>A Raspberry Pi computer</li>
 <li> Temporarily you will need a HDMI enabled monotor, a usb mouse, a usb keyboard and an ethernet cable connected to the internet</li>
 <li>A micro-usb power supply which can connect to your 12 volt battery bank in some manner</li>
+<li>An SD card with at least 5 gigabytes of storage.</li>
 <li>a wifi usb dongle OR a 12 volt router with an ethernet cable plugged into one of the ports</li>
-<li> A wifi or ethernet cable connected to the NEMA client. I am currently using the Vesber XB unit which is connected to a Dlink DIR-655 network router via wifi. The network router will also connect to the internet (when available) and your laptop for development purposes. </li>
+<li> Wifi or ethernet cable connected to the NEMA client. I am currently using the Vesber XB unit which is connected to a Dlink DIR-655 network router via wifi. The network router will also connect to the internet (when available) and your laptop for development purposes. </li>
 </ol>
