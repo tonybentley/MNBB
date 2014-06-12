@@ -1,0 +1,13 @@
+{
+  "mysql" : {
+    "host" : "localhost",
+    "user" : "root",
+    "password" : "",
+    "database" : ""
+  },
+
+  "nmea": {
+    "host": "",
+    "port": ""
+  }
+}

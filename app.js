@@ -1,16 +1,11 @@
 
 var net = require('net');
+var nmeaParser = require('nmea-0183');
 
-/*
-npm module alias = nmea-0183
-forked repo = node-nmea under ./node-modules directory
-*/
+var config = require('./config');
 
-var nmeaParser = require('node-nmea');
-
-
-var HOST = '192.168.0.101';
-var PORT = 39150;
+var HOST = config.nmea.host;
+var PORT = config.nmea.port;
 
 var net = require('net');
  
