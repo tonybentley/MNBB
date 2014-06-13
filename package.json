@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "mysql": "^2.3.2",
-    "nmea": "tonybentley/node-nmea"
+    "node-nmea": "tonybentley/node-nmea"
   },
   "engines": {
     "node": ">=0.10.x",

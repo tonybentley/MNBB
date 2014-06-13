@@ -1,11 +1,11 @@
 
 var net = require('net'),
-    nmeaParser = require('nmea-0183'),
+    nmeaParser = require('node-nmea'),
     config = require('./config'),
     HOST = config.nmea.host,
     PORT = config.nmea.port,
     client = new net.Socket();
-    
+
 client.setEncoding('utf8');
 
 client.connect(PORT, HOST, function() {
