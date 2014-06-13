@@ -6,34 +6,29 @@ One of the biggest misconceptions about marine navigation devices is that consum
 
 This project makes use of a Raspberry Pi and a wifi or wired local network that provides NMEA instrument data through the network to be captured and viewed whenever you would like. Connecting any of your electronics with a built-in web browser to the network then enables you to access the information just like you would normally by "surfing" the local internet. 
 
-## 
-For Mariners
+## For Mariners
 
 MNBB is in development and does not even have a developer release at the moment. Eventually you will be able to pay someone who specializes in NMEA instrument install and repair to install this inexpensive unit for you at the market price of a Raspberry Pi, the NMEA wifi client and the installer's hourly rate. Feel free to email me with any questions. Availability may not be until 2015. In the meantime, get your NMEA wifi client installed and buy a marine navigation app for your smartphone or tablet. I suggest the combination of the VesperXB and iNavX for iPhone users. You will then be broadcasting Class B AIS with your gps position and vessel name, size, etc to other commercial vessels and receiving all classes of AIS from anyone within your VHF range. 
 
-## 
-For Developers
+## For Developers
 
 The open source project makes use of Node.js as the application platform, a MySQL database that collects the NMEA data and normalizes it into insert rows and finally a normal front-end web application that queries the database and receives JSON formatted results for the front-end to consume. The project is module based, which means you can introdue a new module into the project which will query the database with your custom results and display the data in a richly formatted UI developed with your own custom JavaScript, CSS and HTML. 
 
-### 
-Modules
+### Modules
 
-NMEA parsing: NMEA provides a delimited sentence that can be parsed into normalized data. Each database table uses a date-time key to join each table needed for your particular module. As part of the module development, you can introduce your own custom sentence parser for a NMEA standard sentence. As the sentence is received, the key signature will ensure that that particular sentence is inserted as often as is dictated by the module. Constraints are set to disallow more than a small subset of data from being stored to prevent data overload.
+NMEA parsing and json conversion: NMEA provides a delimited sentence that can be parsed into readable and usable json data format. As part of the module development, you can introduce your own custom sentence parser for a NMEA standard sentence. I have forked the node-nmea project at https://github.com/tonybentley/node-nmea to for nmea sentence parsing. 
 
-Database Inserts: Each NMEA sentence will have it's own dedicated table which can be joined using a specific date-time stamp as provided for the primary key. If you design a NMEA sentence parser, you will have to follow the same insert constraints to prevent primary keys from becoming incompatible across table joins. The constraint is yet to be defined.
+**Database:** Each NMEA sentence will be inserted into the database at an interval dictated by a configuration map for each talker type. 
 
-*   **Custom Queries:** As part of your module, you will write your own set of custom queries that will deliver a subset of data in JSON format that you can use for displaying in your custom user interface. This is the core of the application and the method in which data will be compared.
+**Custom Queries:** As part of the web application module, a set of custom queries deliver a subset of data in JSON format that you can use for displaying in your custom user interface. This is the core of the application and the method in which data will be compared.
 
-*   **Front-End Application:** This is where the entire architecture will allow non-technical mariners to use the application. Using Node's web server capabilities a user will simply connect to the application using HTTP and navigate to the home screen to view the modules that are installed into their Raspberry Pi application.
+**Front-End Application:** This is where the entire architecture will allow non-technical mariners to use the application. Using Node's web server capabilities, a user will simply connect to the application using HTTP and navigate to the home screen to view the modules that are installed into their Raspberry Pi.
 
-### 
-Contributors
+### Contributors
 
-There are three parts needed to make this project a success. First is getting the basic NMEA sentences parsed and inserted into the database in a manner that agrees with the Raspberry Pi's capabilities. Producing an optimized database, providing a simple API for module development and a basic front-end with the needed JavaScript libraries, SASS architecture and handlebar template system. 
+There are three parts needed to make this project a success. First is getting the basic NMEA sentences parsed and inserted into the database in a manner that agrees with the Raspberry Pi's capabilities. Second is developing the architecture to insert the parsed sentences into a database that works easily with a front-end application. The final part is writing queries and displaying the results as a web application. 
 
-### 
-Raspberry Pi Device requirements
+### Raspberry Pi Device requirements
 
 1.  A Raspberry Pi computer
 2.  Temporarily you will need a HDMI enabled monotor, a usb mouse, a usb keyboard and an ethernet cable connected to the internet

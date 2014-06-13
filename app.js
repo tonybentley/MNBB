@@ -1,16 +1,13 @@
 
-var net = require('net');
-var nmeaParser = require('nmea-0183');
-
-var config = require('./config');
-
-var HOST = config.nmea.host;
-var PORT = config.nmea.port;
-
-var net = require('net');
- 
-var client = new net.Socket();
+var net = require('net'),
+    nmeaParser = require('nmea-0183'),
+    config = require('./config'),
+    HOST = config.nmea.host,
+    PORT = config.nmea.port,
+    client = new net.Socket();
+    
 client.setEncoding('utf8');
+
 client.connect(PORT, HOST, function() {
     console.log("Connected to NMEA TCP Client")
 });
@@ -19,28 +16,31 @@ client.on('data', function(data) {
     parseDataPackets(data);
 });
 
+client.on('error', function(err) {
+    console.log("Connection error: " + err + " for ip " + HOST);
+});
+
 function parseDataPackets(packet){
     //each nmea sentence
-    var lines = packet.split("\n");
-
-    var keys = [];
+    var sentences = packet.split("\n"),
+        i
 
     //loop through the sentences in this data packet
-    for (i=0;i<lines.length;i++){
+    for (i = 0; i < sentences.length; i++){
         //NMEA sentence
-        var line = lines[i];
-        //get the unique key
-        var key = line.split(",")[0].replace(/\W+/g, "");;
+        var sentence = sentences[i],
+            //get the unique sentence key
+            talkerType = sentence.split(",")[0].replace(/\W+/g, ""),
+            jsonSentence;
         //if a parser is available.... otherwise an error gets thrown
         try{
-            //if 
-            var jsonNmea = nmeaParser.parse(line);
-            console.log("parsed: "+key);
-            console.log(jsonNmea);
+            jsonSentence = nmeaParser.parse(sentence);
+            console.log("parsed: "+talkerType);
+            console.log(jsonSentence);
         }
         catch(e){
-           console.log(line)
+            //handle this gracefully
+           console.log(sentence)
         }
-        
     }
 }

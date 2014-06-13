@@ -1,10 +1,10 @@
 {
   "name": "MNBB",
   "version": "0.0.1",
-  "licenses": [
+  "license": {
     "type": "MIT",
     "url":  "https://raw.githubusercontent.com/tonybentley/MNBB/master/LICENSE"
-  ],
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tonybentley/MNBB.git"
