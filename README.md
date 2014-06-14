@@ -43,13 +43,17 @@ Since this is a WIP I will provide some instructions on how to get the NMEA data
 
 1.	Boot your Pi and connect it to the network. Check your router to make sure it has been assigned an IP for ssh purposes.
 2.  Install Node.js and NPM onto the Pi using ssh from your laptop's terminal. More instructions to follow.
+	Install MongoDB and follow instructions on getting the database up and running
 3.  Clone this repo to your login directory of the Pi. This should be /home/pi/.
-4.  Run 'mkdir node_modules'
+4.  Run 'mkdir node_modules' and cd into the directory
 	Clone the forked repo into node_modules for NMEA parsing at https://github.com/tonybentley/node-nmea
-5.  Add nmea credentials to config.sample.json and save as config.json
-6.  Run the command: 'nodejs app.js' in the MNBB directory
+	Run cd ../
+	Run npm install mongodb
+	Run npm install mongoose
+5.  Add nmea credentials for the client IP and port to config.sample.json and save as config.json
+6.  Run the command mongod in a terminal session, in another seeion run node app.js within the root MNBB directory.
 
-At this point you should see the parsed sentences in json format, all others in the raw NMEA sentence format.
+At this point you should see the parsed sentences in json format, all others in the raw NMEA sentence format. Running datastore will give you query results to ensure you are saving sentences to the database.
 
 **Contributors:**
  Have a look at the issues page to determine what you can do to contribute at: https://github.com/tonybentley/MNBB/issues
