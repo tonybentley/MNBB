@@ -4,15 +4,15 @@ Mariners NMEA Black Box is an open source project that introduces a concept to m
 
 One of the biggest misconceptions about marine navigation devices is that consumer electronics that are not specifically designed for the "harsh marine environment" and while this may be true in some circumstances, is incorrect in regards to the devices we have come to depend on for every day use. A product has emerged into the market that has enabled computers to be low energy, compact and highly versatile. The product is called a Raspberry Pi and is essentially a fully functional computer that draws less than one amp of 12 volt power and can run various programs and provide simple applications using modern day technology. 
 
-This project makes use of a Raspberry Pi and a wifi or wired local network that provides NMEA instrument data through the network to be captured and viewed whenever you would like. Connecting any of your electronics with a built-in web browser to the network then enables you to access the information just like you would normally by "surfing" the local internet. 
+This project makes use of a Raspberry Pi and a wifi or wired local network that provides NMEA instrument data through the network to be captured and viewed whenever you would like. Connecting any of your smartphones, computers and tablets with a built-in web browser to connect your vessel's wifi network then enables you to access the information just like you would normally by going to a web browser and typing in a url. 
 
 ## For Mariners
 
-MNBB is in development and does not even have a developer release at the moment. Eventually you will be able to pay someone who specializes in NMEA instrument install and repair to install this inexpensive unit for you at the market price of a Raspberry Pi, the NMEA wifi client and the installer's hourly rate. Feel free to email me with any questions. Availability may not be until 2015. In the meantime, get your NMEA wifi client installed and buy a marine navigation app for your smartphone or tablet. I suggest the combination of the VesperXB and iNavX for iPhone users. You will then be broadcasting Class B AIS with your gps position and vessel name, size, etc to other commercial vessels and receiving all classes of AIS from anyone within your VHF range. 
+MNBB is in development and does not even have a developer release at the moment. The goal is to be able to install this inexpensive unit at the market price of a Raspberry Pi, the NMEA wifi client and an installer's hourly rate for getting the Pi configured with the needed software, connected to the local wifi network, and wired to the 12 volt battery bank. Feel free to email me with any questions. Availability may not be until 2015. In the meantime, get your NMEA wifi client installed and buy a marine navigation app for your smartphone or tablet. I suggest the combination of the VesperXB and iNavX for iPhone users. You will then be broadcasting Class B AIS with your gps position and vessel name, size, etc to other commercial vessels and receiving all classes of AIS from anyone within your VHF range. 
 
 ## For Developers
 
-The open source project makes use of Node.js as the application platform, a MySQL database that collects the NMEA data and normalizes it into insert rows and finally a normal front-end web application that queries the database and receives JSON formatted results for the front-end to consume. The project is module based, which means you can introdue a new module into the project which will query the database with your custom results and display the data in a richly formatted UI developed with your own custom JavaScript, CSS and HTML. 
+The open source project makes use of Node.js as the application platform, a NoSQL database that collects the NMEA data and normalizes the data into objects and collections, and finally a front-end web application that queries the database and receives JSON formatted results for the front-end to consume. The project is module based, which means you can introdue a new module into the project which will make use of the database to deliver your custom query results and display the data in a richly formatted UI developed with your own custom JavaScript, CSS and HTML. 
 
 ### Modules
 
@@ -35,16 +35,24 @@ There are three parts needed to make this project a success. First is getting th
 3.  A micro-usb power supply which can connect to your 12 volt battery bank in some manner
 4.  An SD card with at least 5 gigabytes of storage.
 5.  a wifi usb dongle OR a 12 volt router with an ethernet cable plugged into one of the ports
-6.  Wifi or ethernet cable connected to the NEMA client. I am currently using the Vesber XB unit which is connected to a Dlink DIR-655 network router via wifi. The network router will also connect to the internet (when available) and your laptop for development purposes.
+6.  A wifi USB dongle or ethernet cable connected to the NEMA client. I am currently using the Vesber XB unit which is connected to a Dlink DIR-655 network router via wifi. The network router will also connect to the internet (when available) and to a laptop for development purposes.
 
 ## Steps to get up and running:
 
-Since this is a WIP I will provide some instructions on how to get the NMEA data streaming on the console. I'm currently working on the MySQL DB part which you're welcome to hack around with. Otherwise, this only connects to the TCP client and parses sentences that have valid parsers available. 
+Since this is a WIP I will provide some instructions on how to get the NMEA data streaming on the console. I'm currently working on the datastore part, which you're welcome to hack around with. Otherwise this only connects to the TCP client and parses sentences that have valid parsers available. 
 
-1.  Install Node.js and NPM onto the Pi
-2.  Clone this repo to your login directory of the Pi
-3.  run npm-install
-4.  add nmea and mysql credentials to config.sample.json and save as config.json
-5.  run the command: 'nodejs app.js' in the MNBB directory
+1.	Boot your Pi and connect it to the network. Check your router to make sure it has been assigned an IP for ssh purposes.
+2.  Install Node.js and NPM onto the Pi using ssh from your laptop's terminal. More instructions to follow.
+3.  Clone this repo to your login directory of the Pi. This should be /home/pi/.
+4.  Run 'mkdir node_modules'
+	Clone the forked repo into node_modules for NMEA parsing at https://github.com/tonybentley/node-nmea
+5.  Add nmea credentials to config.sample.json and save as config.json
+6.  Run the command: 'nodejs app.js' in the MNBB directory
 
-At this point you should see the parsed sentences in json format, all others in the raw NMEA sentence format. If you would like to contribute, start with building valid NMEA parsers in the node-nmea forked repo through pull requests. 
+At this point you should see the parsed sentences in json format, all others in the raw NMEA sentence format.
+
+**Contributors:**
+ Have a look at the issues page to determine what you can do to contribute at: https://github.com/tonybentley/MNBB/issues
+ Fork this repo and use pull requests as usual
+ Make suggestions for enhancements. Remember, big ideas are too much at this point so keep them simple and acheivable with easy acceptance criteria.
+
