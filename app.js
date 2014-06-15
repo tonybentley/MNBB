@@ -17,6 +17,7 @@ var MNBB = {},
     connectionIntervalTime = 30000,
     connectionDuration = 10000,
     connectionInterval,
+    //application storage arrays
     sentencesArray = [],
     talkerTypeArray = [],
     unparsedTalkerTypes = [];
@@ -24,9 +25,11 @@ var MNBB = {},
 console.log("TCP Client connection interval at "+(connectionIntervalTime/1000)+" seconds");    
 console.log("TCP Client open for "+(connectionDuration/1000)+" seconds");       
 mongoose.connect('mongodb://localhost/MNBB');
-
+//smoke test for a single insert
+connectToNmeaClient();
 //set an interval to connect, grab some data, store the data, then close the connection
-setInterval(connectToNmeaClient,connectionIntervalTime);
+//keep it running for logging data
+//setInterval(connectToNmeaClient,connectionIntervalTime);
 
 //open connection, do some stuff then close
 function connectToNmeaClient(){
@@ -79,9 +82,11 @@ function parseDataPackets(packet){
             talkerType = sentence.split(",")[0].replace(/\W+/g, ""),
             jsonSentence,
             success = true,
-            isUniqueTalker = talkerTypeArray.indexOf(talkerType) === -1;
+            isUniqueTalker = talkerTypeArray.indexOf(talkerType) === -1,
+            isSupportedTalker = config.nmea.talkers.indexOf(talkerType) > -1,
+            hasNotBeenParsedYet = unparsedTalkerTypes.indexOf(talkerType) === -1;
 
-        if(isUniqueTalker && talkerType !== "" && config.nmea.talkers.indexOf(talkerType) > -1){
+        if(isUniqueTalker && talkerType !== "" && isSupportedTalker){
              talkerTypeArray.push(talkerType);
             //if the parser is supported and has not already been parsed in this block
             try{
@@ -94,7 +99,7 @@ function parseDataPackets(packet){
         }
         else{
             success = false;
-            if(unparsedTalkerTypes.indexOf(talkerType) === -1){
+            if(hasNotBeenParsedYet && !isSupportedTalker){
                 unparsedTalkerTypes.push(talkerType);
             }
             /*

@@ -16,7 +16,7 @@ var sentenceSchema = mongoose.Schema({
 
 eachTalker();
 
-setInterval(eachTalker,10000);
+//setInterval(eachTalker,10000);
 
 function eachTalker(){
 	var i,
@@ -26,12 +26,45 @@ function eachTalker(){
 		var	talker_id = talkers[i];
 		query(talker_id);
 	}
-	console.log("\n");
+	
 }
+
 
 function query(talker_id){
 	Sentence.find({ talker_id: talker_id }, function(error,result){
-		console.log("Returned "+Object.keys(result).length+" results for talker ID: "+talker_id);
+		join(talker_id,result);
 	});
+}
+
+function join(talker_id,result){
+		var talkerType = talker_id.substr(2),
+			oneResult = result[result.length-1],
+			qryResult = {},
+			//get talker types to join with model
+			typeJoin = function(){
+				var types = config.nmea.talker_types,
+					i;
+				for (i = 0; i < types.length; i++){
+					if(types[i].id === talkerType){
+						//console.log(types[i])
+						return types[i];
+					}
+				}	
+				console.log(talkerType + " not found");
+			},
+			typeDesc = typeJoin();
+
+		
+		if(typeof(oneResult) == "object"){
+			//there has to be an easier way...
+			qryResult["_id"] = oneResult["_id"];
+			qryResult["datetime"] = oneResult["datetime"];
+			qryResult["sentence"] = oneResult["sentence"];
+			qryResult["talker_id"] = oneResult["talker_id"];
+			qryResult["talker_type"] = typeDesc.id;
+			qryResult["talker_name"] = typeDesc.name;
+			console.log(qryResult);
+			console.log("\n");
+		}
 }
 
