@@ -1,11 +1,13 @@
     
 var MNBB = {},
-
+    express = require('express'),
     net = require('net'),
     mongoose = require('mongoose'),
     nmeaParser = require('node-nmea'),
-    //store some constants here
+    path = require('path'),
     config = require('./config'),
+    routes = require('./routes/index'),
+    app = express(),
     //our data scheme for each sentence
     sentenceSchema = mongoose.Schema({
         talker_id: String,
@@ -13,23 +15,32 @@ var MNBB = {},
         datetime: { type : Date, default: Date.now }
     }),
     //our model declaration
-    Sentence = mongoose.model('Sentence', sentenceSchema),
-    connectionIntervalTime = 30000,
+    Sentence = mongoose.model('Sentence'),
+    connectionIntervalTime = 20000,
     connectionDuration = 10000,
     connectionInterval,
     //application storage arrays
     sentencesArray = [],
     talkerTypeArray = [],
     unparsedTalkerTypes = [];
+
+
+app.use('/', routes);
+var server = app.listen(3000, function() {
+    console.log('Listening on port %d', server.address().port);
+});
+app.use(express.static(__dirname + '/public'));
+module.exports = app;
     
 console.log("TCP Client connection interval at "+(connectionIntervalTime/1000)+" seconds");    
 console.log("TCP Client open for "+(connectionDuration/1000)+" seconds");       
-mongoose.connect('mongodb://localhost/MNBB');
+//mongoose.connect('mongodb://localhost/MNBB');
+//mongoose.connection.close();
 //smoke test for a single insert
 connectToNmeaClient();
 //set an interval to connect, grab some data, store the data, then close the connection
 //keep it running for logging data
-//setInterval(connectToNmeaClient,connectionIntervalTime);
+setInterval(connectToNmeaClient,connectionIntervalTime);
 
 //open connection, do some stuff then close
 function connectToNmeaClient(){

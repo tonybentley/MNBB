@@ -1,5 +1,5 @@
 
-//A simple way to query all GPGLL sentences
+//A simple way to query all of the most recent sentences logged
 
 var mongoose = require('mongoose'),
 	config = require('./config');
