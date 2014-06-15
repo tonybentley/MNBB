@@ -85,12 +85,18 @@ function parseDataPackets(packet){
             isUniqueTalker = talkerTypeArray.indexOf(talkerType) === -1,
             isSupportedTalker = config.nmea.talkers.indexOf(talkerType) > -1,
             hasNotBeenParsedYet = unparsedTalkerTypes.indexOf(talkerType) === -1;
-
+        /*
+        //helpful to log things
+        if(talkerType == 'VWVHW'){
+            console.log(isSupportedTalker);
+        }
+        */
         if(isUniqueTalker && talkerType !== "" && isSupportedTalker){
              talkerTypeArray.push(talkerType);
             //if the parser is supported and has not already been parsed in this block
             try{
                 parsedNmeaSentence = nmeaParser.parse(sentence);
+     
             }
             catch(e){
                 success = false;
@@ -102,13 +108,8 @@ function parseDataPackets(packet){
             if(hasNotBeenParsedYet && !isSupportedTalker){
                 unparsedTalkerTypes.push(talkerType);
             }
-            /*
-            //if we want to log a specific unsupported talker type sentence
-            if(talkerType == 'WIMWV'){
-                console.log(e);
-            }
-            */
-        } //end if
+            
+        } 
         //save the sentence for db transaction
         if(parsedNmeaSentence !== undefined && success === true) {
             //console.log(talkerType);
