@@ -1,7 +1,8 @@
 
 //A simple way to query all GPGLL sentences
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+	config = require('./config');
 
 mongoose.connect('mongodb://localhost/MNBB');
 
@@ -13,28 +14,24 @@ var sentenceSchema = mongoose.Schema({
 	//our model declaration
 	Sentence = mongoose.model('Sentence', sentenceSchema);
 
+eachTalker();
 
-Sentence.find({ talker_id: /^GPGLL/ }, function(error,result){
-	console.log("Returned "+Object.keys(result).length+" results for talker ID: GPGLL");
-});
+setInterval(eachTalker,10000);
 
-Sentence.find({ talker_id: /^GPRMC/ }, function(error,result){
-	console.log("Returned "+Object.keys(result).length+" results for talker ID: GPRMC");
-});
+function eachTalker(){
+	var i,
+		talkers = config.nmea.talkers;
+	//loop through supported talkers and grab their count
+	for (i = 0; i < talkers.length; i++){
+		var	talker_id = talkers[i];
+		query(talker_id);
+	}
+	console.log("\n");
+}
 
-Sentence.find({ talker_id: /^GPVTG/ }, function(error,result){
-	console.log("Returned "+Object.keys(result).length+" results for talker ID: GPVTG");
-});
-
-Sentence.find({ talker_id: /^GPGGA/ }, function(error,result){
-	console.log("Returned "+Object.keys(result).length+" results for talker ID: GPGGA");
-});
-
-Sentence.find({ talker_id: /^GPGSA/ }, function(error,result){
-	console.log("Returned "+Object.keys(result).length+" results for talker ID: GPGSA");
-});
-
-Sentence.find({ talker_id: /^GPGSV/ }, function(error,result){
-	console.log("Returned "+Object.keys(result).length+" results for talker ID: GPGSV");
-});
+function query(talker_id){
+	Sentence.find({ talker_id: talker_id }, function(error,result){
+		console.log("Returned "+Object.keys(result).length+" results for talker ID: "+talker_id);
+	});
+}
 
