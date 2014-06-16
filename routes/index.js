@@ -1,7 +1,9 @@
 
+
+var config = require('../config');
 var express = require('express');
 var router = express.Router();
-var root = {'root': '/Users/tbentley/Sites/MNBB/'};
+var root = {'root': config.server.root_path};
 
 var tw = require('../web_modules/true_wind/js/true_wind_model.js');
 

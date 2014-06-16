@@ -5,42 +5,12 @@ var True_Wind = ( function() {
 	var tw = {};
 
 	tw.perRound = function(num, precision)  {
-		var precision = 2; //default value if not passed from caller, change if desired
-		// remark if passed from caller
-		precision = parseInt(precision); // make certain the decimal precision is an integer
-		var result1 = num * Math.pow(10, precision),
+		 var _precision = typeof(precision) == "number" ? precision : 2, 
+			result1 = num * Math.pow(10, _precision),
 		 	result2 = Math.round(result1),
-		 	result3 = result2 / Math.pow(10, precision);
-		return this.zerosPad(result3, precision);
+		 	result3 = result2 / Math.pow(10, _precision);
+		return result3.toFixed(_precision);
 	};
-
-	tw.zerosPad = function(rndVal, decPlaces) {
-		var valStrg = rndVal.toString(),// Convert the number to a string
-		 	decLoc = valStrg.indexOf("."), // Locate the decimal point
-		 	decPartLen;
-
-		// check for a decimal 
-		if (decLoc == -1) {
-		    decPartLen = 0; // If no decimal, then all decimal places will be padded with 0s
-		    // If decPlaces is greater than zero, add a decimal point
-		    valStrg += decPlaces > 0 ? "." : "";
-		}
-		else {
-		    decPartLen = valStrg.length - decLoc - 1; // If there is a decimal already, only the needed decimal places will be padded with 0s
-		}
-
-		var totalPad = decPlaces - decPartLen;    // Calculate the number of decimal places that need to be padded with 0s
-
-		if (totalPad > 0) {
-		    // Pad the string with 0s
-		    for (var cntrVal = 1; cntrVal <= totalPad; cntrVal++) {
-		        valStrg += "0";
-		    }
-
-			return valStrg;
-		}
-	};
-
 	tw.deg2rad = function(deg){
 		var conv_factor = (2.0 * Math.PI)/360.0;
 		return(deg * conv_factor);
@@ -78,20 +48,21 @@ var True_Wind = ( function() {
 		var apparent_wind_speed = apparent_wind_speed / speed_over_water,
 		 	tan_alpha = (Math.sin(apparent_wind_angle) / (apparent_wind_speed - Math.cos(apparent_wind_angle))),
 		 	alpha = Math.atan(tan_alpha),
-		 	tdiff = this.rad2deg(apparent_wind_angle + alpha),
-		 	tspeed = Math.sin(apparent_wind_angle)/Math.sin(alpha);
-
-		return {
-			apparent_speed_over_water: obj.speed_over_water,
-			apparent_wind_speed: obj.apparent_wind_speed,
-			apparent_wind_angle: obj.apparent_wind_angle,
-			true_wind_angle: tdiff,
-			true_speed_over_water: tspeed,
-			true_wind_speed: (isNaN(speed_over_water) ? "Unknown" : (tspeed * speed_over_water)),
-			rounded_true_wind_angle: this.perRound(tdiff),
-			rounded_true_speed_over_water: this.perRound(tspeed),
-			rounded_true_wind_speed: (isNaN(speed_over_water) ? "Unknown" : this.perRound(tspeed * speed_over_water))
+		 	true_wind_angle = this.rad2deg(apparent_wind_angle + alpha),
+		 	true_speed_over_water = Math.sin(apparent_wind_angle)/Math.sin(alpha),
+		 	returnObject = {
+				apparent_speed_over_water: obj.speed_over_water,
+				apparent_wind_speed: obj.apparent_wind_speed,
+				apparent_wind_angle: obj.apparent_wind_angle,
+				true_wind_angle: true_wind_angle,
+				true_speed_over_water: true_speed_over_water,
+				true_wind_speed: (isNaN(speed_over_water) ? "Unknown" : (true_speed_over_water * speed_over_water)),
+				rounded_true_wind_angle: this.perRound(true_wind_angle),
+				rounded_true_speed_over_water: this.perRound(true_speed_over_water),
+				rounded_true_wind_speed: (isNaN(speed_over_water) ? "Unknown" : this.perRound(true_speed_over_water * speed_over_water))
 		};
+
+		return returnObject;
 
 	};
 
