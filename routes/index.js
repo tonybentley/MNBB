@@ -9,7 +9,7 @@ var tw = require('../web_modules/true_wind/js/true_wind_model.js');
 
 
 router.get('/true_wind/current', function(req,res){
-	tw.setCallback(res);
+	tw.setHttpResponse(res);
 	tw.query(1);
 });
 

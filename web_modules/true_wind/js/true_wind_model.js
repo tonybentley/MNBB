@@ -1,7 +1,7 @@
 
 var TrueWindModel = (function() {
 	var tw = {},
-		finalCallback,
+		httpResponse,
 		mongoose = require('mongoose'),
 		true_wind = require('true_wind'),
 		config = require('../../../config'),
@@ -10,8 +10,8 @@ var TrueWindModel = (function() {
 	        datetime: { type : Date, default: Date.now }
 	    }),
 		Sentences = mongoose.model('Sentences',sentencesSchema);
-	tw.setCallback = function(cb){
-		finalCallback = cb;
+	tw.setHttpResponse = function(cb){
+		httpResponse = cb;
 	};
 	tw.callback = function(error,result){
 
@@ -44,8 +44,8 @@ var TrueWindModel = (function() {
 				
 			}
 		}
-		finalCallback.write(JSON.stringify(outputObj));
-		finalCallback.end();
+		httpResponse.write(JSON.stringify(outputObj));
+		httpResponse.end();
 	};
 	tw.query = function(limit){
 		if(!limit){
