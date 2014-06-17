@@ -14,7 +14,6 @@ var TrueWindModel = (function() {
 		finalCallback = cb;
 	};
 	tw.callback = function(error,result){
-		mongoose.connection.close();
 
 		var	inputs = {},
 			outputObj = {},
@@ -39,19 +38,19 @@ var TrueWindModel = (function() {
 			
 				}
 
-				outputObj = true_wind.calculate(inputs));
+				outputObj = true_wind.calculate(inputs);
 				outputObj.datetime = datetime;
 				output.push(outputObj);
 				
 			}
 		}
 		finalCallback.write(JSON.stringify(outputObj));
+		finalCallback.end();
 	};
 	tw.query = function(limit){
 		if(!limit){
 			throw new Error("Provide a limit to query");
 		}
-		mongoose.connect('mongodb://localhost/MNBB');
 		Sentences
 			.where('sentences.id').in(["GPVTG","WIMWV"])
 			.select('datetime sentences.sow_knots sentences.apparent_wind_angle sentences.apparent_wind_speed')
