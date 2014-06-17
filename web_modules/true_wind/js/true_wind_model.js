@@ -1,42 +1,65 @@
-var mongoose = require('mongoose'),
-	config = require('../../../config.json'),
-	true_wind_calculator = require('./true_wind_calc.js'),
-	True_Wind_QO = ( function() {
-		//constructor
-		"use strict";
+
+var TrueWindModel = (function() {
+	var tw = {},
+		finalCallback,
+		mongoose = require('mongoose'),
+		true_wind = require('true_wind'),
+		config = require('../../../config'),
+		sentencesSchema = mongoose.Schema({
+	        sentences: Array,
+	        datetime: { type : Date, default: Date.now }
+	    }),
+		Sentences = mongoose.model('Sentences',sentencesSchema);
+	tw.setCallback = function(cb){
+		finalCallback = cb;
+	};
+	tw.callback = function(error,result){
+		mongoose.connection.close();
+
+		var	inputs = {},
+			outputObj = {},
+			output = [];
+
+		if(result.length){
+			for(var i = 0; i < result.length; i++){
+				
+				var sentences = result[i].sentences;
+				var datetime = result[i].datetime;
+				for(var j = 0; j < sentences.length; j++){
+
+					var sentence  =  sentences[j];
+
+					for(key in sentence){
+						inputs[key] = sentence[key]
+					}
+					if(inputs.hasOwnProperty("sow_knots")){
+						inputs.speed_over_water = inputs.sow_knots;
+						delete(inputs.sow_knots);
+					}
+			
+				}
+
+				outputObj = true_wind.calculate(inputs));
+				outputObj.datetime = datetime;
+				output.push(outputObj);
+				
+			}
+		}
+		finalCallback.write(JSON.stringify(outputObj));
+	};
+	tw.query = function(limit){
+		if(!limit){
+			throw new Error("Provide a limit to query");
+		}
 		mongoose.connect('mongodb://localhost/MNBB');
+		Sentences
+			.where('sentences.id').in(["GPVTG","WIMWV"])
+			.select('datetime sentences.sow_knots sentences.apparent_wind_angle sentences.apparent_wind_speed')
+			.limit(limit)
+			.sort({datetime: 'desc'})
+			.exec(tw.callback);
+	};
+	return tw;
+}());
 
-		var tw = {};
-			tw.sentenceSchema = mongoose.Schema({
-			    talker_id: String,
-			    sentence: Object,
-			    datetime: Date 
-			});
-			//our model declaration
-			tw.Sentence = mongoose.model('Sentence', tw.sentenceSchema);
-			tw.inputs = {
-					apparent_wind_angle: 0.00,
-					apparent_wind_speed: 0.00,
-					speed_over_water: 0.00
-			};
-		//gather the most recent result for retreiving current true wind speed
-		tw.queryLast = function(res){
-			return tw.Sentence.find({ talker_id: 'WIMWV' }, function(error, result){
-				var lastResult = result[result.length-1];
-				tw.inputs.apparent_wind_angle = lastResult.sentence.angle;
-				tw.inputs.apparent_wind_speed = lastResult.sentence.speed;
-				//use the datetime stamp to query the speed using relational data
-				tw.Sentence.find({ talker_id: 'GPVTG', datetime: lastResult.datetime }, function(error, result){
-					tw.inputs.speed_over_water = result[result.length-1].sentence.knots;
-					var twObj = true_wind_calculator.calculate(tw.inputs);
-					res.send( JSON.stringify(twObj) );
-					
-				});
-			});
-		};
-
-		return tw;
-
-	}());
-
-module.exports = True_Wind_QO;
+module.exports = TrueWindModel;
