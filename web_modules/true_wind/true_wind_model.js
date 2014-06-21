@@ -4,15 +4,19 @@ var TrueWindModel = (function() {
 		httpResponse,
 		mongoose = require('mongoose'),
 		true_wind = require('true_wind'),
-		config = require('../../../config'),
+		config = require('../../config'),
 		sentencesSchema = mongoose.Schema({
 	        sentences: Array,
 	        datetime: { type : Date, default: Date.now }
 	    }),
 		Sentences = mongoose.model('Sentences',sentencesSchema);
+
+	//browser 
 	tw.setHttpResponse = function(cb){
 		httpResponse = cb;
 	};
+
+	//query response
 	tw.callback = function(error,result){
 
 		var	inputs = {},
@@ -37,16 +41,27 @@ var TrueWindModel = (function() {
 					}
 			
 				}
+				if (inputs.hasOwnProperty("apparent_wind_speed") 
+					&& inputs.hasOwnProperty("speed_over_water") 
+					&& inputs.hasOwnProperty("apparent_wind_angle")){
 
-				outputObj = true_wind.calculate(inputs);
-				outputObj.datetime = datetime;
-				output.push(outputObj);
-				
+					outputObj = true_wind.calculate(inputs);
+					outputObj.datetime = datetime;
+					outputObj.apparent_wind_speed = inputs.apparent_wind_speed;
+					outputObj.speed_over_water = inputs.speed_over_water;
+					outputObj.apparent_wind_angle = inputs.apparent_wind_angle;
+
+					output.push(outputObj);
+				}
+				else{
+					console.log("no inputs for calculating true wind for "+datetime);
+				}
 			}
 		}
-		httpResponse.write(JSON.stringify(outputObj));
+		httpResponse.write(JSON.stringify(output));
 		httpResponse.end();
 	};
+
 	tw.query = function(limit){
 		if(!limit){
 			throw new Error("Provide a limit to query");
@@ -58,6 +73,7 @@ var TrueWindModel = (function() {
 			.sort({datetime: 'desc'})
 			.exec(tw.callback);
 	};
+	
 	return tw;
 }());
 
