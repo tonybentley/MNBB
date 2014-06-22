@@ -5,11 +5,13 @@ var TrueWindModel = (function() {
 		mongoose = require('mongoose'),
 		true_wind = require('true_wind'),
 		config = require('../../config'),
+		/*
 		sentencesSchema = mongoose.Schema({
 	        sentences: Array,
 	        datetime: { type : Date, default: Date.now }
 	    }),
-		Sentences = mongoose.model('Sentences',sentencesSchema);
+		*/
+		Sentences = mongoose.model('Sentences');
 
 	//browser 
 	tw.setHttpResponse = function(cb){

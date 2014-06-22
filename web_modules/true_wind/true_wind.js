@@ -1,5 +1,11 @@
 /*
 	True Wind Application
 */
-MNBB.true_wind = angular.module("true_wind",[]);
 
+(function() {
+	MNBB.true_wind = angular.module("true_wind",[]);
+
+	MNBB.true_wind.controller("TrueWindController",function(){
+
+	});
+}());

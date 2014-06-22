@@ -1,5 +1,5 @@
 var MNBB = {},
-    //nmea_worker = require("./lib/nmea_worker").init();
+    nmea_worker = require("./lib/nmea_worker").init(),
     express = require('express'),
     net = require('net'),
     mongoose = require('mongoose'),
@@ -8,14 +8,8 @@ var MNBB = {},
     root = {'root': config.server.root_path},
  
     routes = require('./routes/index'),
-    app = express(),
-
-    //This is messed up. Sometimes it fails without it
-    sentencesSchema = mongoose.Schema({
-        sentences: Array,
-        datetime: { type : Date, default: Date.now }
-    }),
-    Sentences = mongoose.model('Sentences');
+    app = express();
+    
 
 mongoose.connect('mongodb://localhost/MNBB');
 
