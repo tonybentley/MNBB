@@ -7,12 +7,6 @@ var TrueWindModel = (function() {
 		mongoose = require('mongoose'),
 		true_wind = require('true_wind'),
 		config = require('../../config'),
-		/*
-		sentencesSchema = mongoose.Schema({
-	        sentences: Array,
-	        datetime: { type : Date, default: Date.now }
-	    }),
-		*/
 		Sentences = mongoose.model('Sentences');
 
 	//browser 
@@ -28,10 +22,58 @@ var TrueWindModel = (function() {
 			output = [];
 
 		if(result.length){
+			var output = [];
+			for (var i=0; i<result.length; i++){
+				var resultItem = result[i],
+					outputObj = {};
+					outputObj.id = resultItem.id;
+					outputObj.datetime = resultItem.datetime;
+				for (var j=0; j < resultItem.sentences.length; j++){
+
+
+					if(resultItem.sentences[j].data.hasOwnProperty("knots")){
+						inputs.speed_over_water = inputs.sow_knots;
+						delete(inputs.sow_knots);
+					}
+
+
+					if(resultItem.sentences[j].data.hasOwnProperty("sog")){
+						outputObj['sog'] = resultItem.sentences[j].data.sog;
+					}
+					if(resultItem.sentences[j].data.hasOwnProperty("knots")){
+						outputObj['knots'] = resultItem.sentences[j].data.knots;
+					}
+
+
+				}
+				output.push(outputObj);
+			}
+			httpResponse.status(200).write(JSON.stringify(output));
+			httpResponse.end();
+
+
+
+
+
+
+
+
+
+
 			for(var i = 0; i < result.length; i++){
 				
 				var sentences = result[i].sentences;
 				var datetime = result[i].datetime;
+
+
+
+
+
+
+
+
+
+
 				for(var j = 0; j < sentences.length; j++){
 
 					var sentence  =  sentences[j];
@@ -72,7 +114,7 @@ var TrueWindModel = (function() {
 		}
 		Sentences
 			.where('sentences.id').in(["GPVTG","WIMWV"])
-			.select('datetime sentences.sow_knots sentences.apparent_wind_angle sentences.apparent_wind_speed')
+			.select('datetime sentences.data.sow_knots sentences.data.apparent_wind_angle sentences.data.apparent_wind_speed')
 			.limit(limit)
 			.sort({datetime: 'desc'})
 			.exec(tw.callback);
