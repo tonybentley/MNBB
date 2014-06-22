@@ -1,34 +1,34 @@
 
-var DepthModel = (function() {
-	var depth = {},
+var HeadingModel = (function() {
+	var heading = {},
 		httpResponse,
 		mongoose = require('mongoose'),
 		config = require('../../config')
 		Sentence = mongoose.model('Sentence');
 
 	//browser 
-	depth.setHttpResponse = function(cb){
+	heading.setHttpResponse = function(cb){
 		httpResponse = cb;
 	};
 
 	//query response
-	depth.callback = function(error,result){
+	heading.callback = function(error,result){
 		httpResponse.status(200).write(JSON.stringify(result));
 		httpResponse.end();
 	};
 
-	depth.query = function(limit){
+	heading.query = function(limit){
 		if(!limit){
 			limit = null;
 		}
 		Sentence
-			.where('talker_type').in(["SDDBT","IIDBT"])
+			.where('talker_type').in(["HCHDG"])
 			.sort({datetime: 'desc'})
 			.limit(limit)
-			.exec(depth.callback);
+			.exec(heading.callback);
 	};
 	
-	return depth;
+	return heading;
 }());
 
-module.exports = DepthModel;
+module.exports = HeadingModel;

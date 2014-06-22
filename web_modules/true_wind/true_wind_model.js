@@ -1,4 +1,6 @@
 
+//TODO: If any parameter is invalid, do not query and return an empty object
+
 var TrueWindModel = (function() {
 	var tw = {},
 		httpResponse,
