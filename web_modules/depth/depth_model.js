@@ -12,7 +12,7 @@ var DepthModel = (function() {
 	};
 
 	//query response
-	depth.callback = function(error,result){
+	depth.callback = function(error, result){
 		httpResponse.status(200).write(JSON.stringify(result));
 		httpResponse.end();
 	};

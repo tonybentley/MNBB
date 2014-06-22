@@ -22,7 +22,7 @@ var WindModel = (function() {
 			limit = null;
 		}
 		Sentence
-			.where('talker_type').in(["VWVHW"])
+			.where('talker_type').in(["IIMWV","WIMWV"])
 			.sort({datetime: 'desc'})
 			.limit(limit)
 			.exec(wind.callback);

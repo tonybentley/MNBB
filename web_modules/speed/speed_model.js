@@ -2,8 +2,6 @@
 /*
 Returns both speed over ground from GPS and speed over water from Knotmeter
 */
-
-
 var SpeedModel = (function() {
 	var speed = {},
 		httpResponse,
@@ -18,7 +16,7 @@ var SpeedModel = (function() {
 
 	//query response
 	speed.callback = function(error,result){
-			var output = [];
+		var output = [];
 		for (var i=0; i<result.length; i++){
 			var resultItem = result[i],
 				outputObj = {};
@@ -31,7 +29,7 @@ var SpeedModel = (function() {
 					outputObj['sog'] = resultItem.sentences[j].data.sog;
 				}
 				//knotmeter
-				else if(resultItem.sentences[j].data.hasOwnProperty("sow_knots")){
+				if(resultItem.sentences[j].data.hasOwnProperty("sow_knots")){
 					outputObj['sow_knots'] = resultItem.sentences[j].data.sow_knots;
 				}
 			}

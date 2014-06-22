@@ -1,5 +1,3 @@
-
-
 var config = require('../config'),
 	express = require('express'),
 	router = express.Router(),
@@ -34,7 +32,6 @@ router.get('/wind/:count', function(req, res) {
 	wind.setHttpResponse(res);
 	wind.query(req.params.count);
 });
-
 
 router.get('/gps/:count', function(req, res) {
 	gps.setHttpResponse(res);
