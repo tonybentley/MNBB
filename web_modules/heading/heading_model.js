@@ -1,4 +1,7 @@
 
+/*
+Returns HCHDG sentences
+*/
 var HeadingModel = (function() {
 	var heading = {},
 		httpResponse,

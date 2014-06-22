@@ -8,6 +8,7 @@ var config = require('../config'),
 	wind = require('../web_modules/wind/wind_model.js'),
 	heading = require('../web_modules/heading/heading_model.js'),
 	gps = require('../web_modules/gps/gps_model.js'),
+	speed = require('../web_modules/speed/speed_model.js'),
 	depth = require('../web_modules/depth/depth_model.js');
 
 router.get('/', function(req, res) {
@@ -38,6 +39,11 @@ router.get('/wind/:count', function(req, res) {
 router.get('/gps/:count', function(req, res) {
 	gps.setHttpResponse(res);
 	gps.query(req.params.count);
+});
+
+router.get('/speed/:count', function(req, res) {
+	speed.setHttpResponse(res);
+	speed.query(req.params.count);
 });
 
 module.exports = router;
