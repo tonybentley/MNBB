@@ -3,9 +3,9 @@
 */
 
 (function() {
-	MNBB.true_wind = angular.module("true_wind",[]);
+	var true_wind = angular.module("true_wind",[]);
 
-	MNBB.true_wind.controller("TrueWindController",function(){
+	true_wind.controller("TrueWindController",function($scope){
 
 	});
 }());

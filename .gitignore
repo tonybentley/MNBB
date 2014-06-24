@@ -1,6 +1,8 @@
 node_modules
-public
+public/components
+public/js
+public/css
 .DS_Store
 notes.txt
 config.json
-css
+
