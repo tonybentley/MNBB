@@ -3,9 +3,16 @@
 */
 
 (function() {
-	MNBB.heading = angular.module("heading",[]);
+	heading = angular.module("heading",[]);
 
-	MNBB.heading.controller("HeadingController",function(){
+	heading.controller("HeadingController",function(){
+		
+		
+
+
 		
 	});
+
+
+	
 }());

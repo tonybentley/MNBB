@@ -7,7 +7,8 @@ var TrueWindModel = (function() {
 		mongoose = require('mongoose'),
 		true_wind = require('true_wind'),
 		config = require('../../config'),
-		Sentences = mongoose.model('Sentences');
+        Sentence = mongoose.model('Sentence'),
+        Sentences = mongoose.model('Sentences');
 
 	//browser 
 	tw.setHttpResponse = function(cb){
