@@ -1,11 +1,22 @@
 var MNBB = {},
-    nmea_worker = require("./lib/nmea_worker").init(),
+//    nmea_worker = require("./lib/nmea_worker").init(),
     express = require('express'),
     net = require('net'),
     mongoose = require('mongoose'),
     path = require('path'),
     config = require('./config'),
     root = {'root': config.server.root_path},
+        sentenceSchema = mongoose.Schema({
+            data: Object,
+            talker_type: String,
+            datetime: { type : Date, default: Date.now }
+        }),
+        sentencesSchema = mongoose.Schema({
+            sentences: [sentenceSchema],
+            datetime: { type : Date, default: Date.now }
+        }),
+        Sentence = mongoose.model('Sentence',sentenceSchema),
+        Sentences = mongoose.model('Sentences',sentencesSchema),
  
     routes = require('./routes/index'),
     app = express();
