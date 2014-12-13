@@ -6,6 +6,17 @@ var MNBB = {},
     path = require('path'),
     config = require('./config'),
     root = {'root': config.server.root_path},
+        sentenceSchema = mongoose.Schema({
+            data: Object,
+            talker_type: String,
+            datetime: { type : Date, default: Date.now }
+        }),
+        sentencesSchema = mongoose.Schema({
+            sentences: [sentenceSchema],
+            datetime: { type : Date, default: Date.now }
+        }),
+        Sentence = mongoose.model('Sentence',sentenceSchema),
+        Sentences = mongoose.model('Sentences',sentencesSchema),
  
     routes = require('./routes/index'),
     app = express();
