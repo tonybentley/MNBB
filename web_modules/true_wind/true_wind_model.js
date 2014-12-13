@@ -7,8 +7,18 @@ var TrueWindModel = (function() {
 		mongoose = require('mongoose'),
 		true_wind = require('true_wind'),
 		config = require('../../config'),
-        Sentence = mongoose.model('Sentence'),
-        Sentences = mongoose.model('Sentences');
+		
+	    sentenceSchema = mongoose.Schema({
+	        data: Object,
+	        talker_type: String,
+	        datetime: { type : Date, default: Date.now }
+	    }),
+	    sentencesSchema = mongoose.Schema({
+	        sentences: [sentenceSchema],
+	        datetime: { type : Date, default: Date.now }
+	    }),
+	    Sentence = mongoose.model('Sentence',sentenceSchema),
+	    Sentences = mongoose.model('Sentences',sentencesSchema);
 
 	//browser 
 	tw.setHttpResponse = function(cb){

@@ -27,6 +27,16 @@ var WindModel = (function() {
 			.limit(limit)
 			.exec(wind.callback);
 	};
+
+	wind.max = function(){
+		Sentences
+			.where('sentences.talker_type').in(["IIMWV","WIMWV"])
+			.select('datetime sentences.data.apparent_wind_speed')
+			.sort({'sentences.data.apparent_wind_speed': 'desc'})
+			.limit(1)
+			.exec(wind.callback);
+	};
+
 	
 	return wind;
 }());

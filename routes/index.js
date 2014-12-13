@@ -28,6 +28,12 @@ router.get('/heading/:count', function(req, res) {
 	heading.query(req.params.count);
 });
 
+
+router.get('/wind/max',function(req, res){
+	wind.setHttpResponse(res);
+	wind.max();
+});
+
 router.get('/wind/:count', function(req, res) {
 	wind.setHttpResponse(res);
 	wind.query(req.params.count);
@@ -42,5 +48,6 @@ router.get('/speed/:count', function(req, res) {
 	speed.setHttpResponse(res);
 	speed.query(req.params.count);
 });
+
 
 module.exports = router;
