@@ -1,5 +1,5 @@
 var MNBB = {},
-//    nmea_worker = require("./lib/nmea_worker").init(),
+    nmea_worker = require("./lib/nmea_worker").init(),
     express = require('express'),
     net = require('net'),
     mongoose = require('mongoose'),
